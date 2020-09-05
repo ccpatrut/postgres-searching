@@ -1,0 +1,23 @@
+image: "maven:3-jdk-8"
+
+before_script:
+  - echo "before script"
+  - echo $CI_COMMIT_BRANCH 
+
+stages:
+  - build
+  - release
+  - deploy
+
+build:
+  stage: build
+  script:
+    - mvn package -DskipTests
+  artifacts:
+    paths:
+      - target/scheduler-0.0.1-SNAPSHOT.jar
+
+tests:
+  stage: build
+  script:
+    - mvn test

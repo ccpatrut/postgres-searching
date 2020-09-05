@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  pointer-api:
+    build: .
+    container_name: postgres-searching
+    depends_on:
+      - postgres-db
+
+  postgres-db:
+    image: library/postgres:13-alpine
+    container_name: postgres-db
+    privileged: true
+    ports:
+      - "5431:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mails
+    volumes:
+      - type: volume
+        source: mydata
+        target: /var/lib/postgresql/data
+        volume:
+          nocopy: true
+
+
+volumes:
+  mydata:
+    name: pg-volume
